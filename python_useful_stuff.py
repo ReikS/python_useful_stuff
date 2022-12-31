@@ -219,40 +219,164 @@ print(reversed)  # {1: 'a', 2: 'b', 3: 'c'}
 
 #################################################
 
+# Add a value in the first position in a list
+my_list = [3, 4, 5]
+
+my_list.append(6)
+my_list.insert(0, 2)
+print(my_list)  # [2, 3, 4, 5, 6]
+
+#################################################
+
+# lambda functions
+comparison = lambda x: "x > 3" if x > 3 else "x <= 3"
+
+# filter
+my_list = [1, 2, 3, 4]
+
+odd = filter(lambda x: x % 2 == 1, my_list)
+
+print(list(odd))   # [1, 3]
+print(my_list)  # [1, 2, 3, 4]
+
+# map
+my_list = [1, 2, 3, 4]
+
+squared = map(lambda x: x ** 2, my_list)
+
+print(list(squared))   # [1, 4, 9, 16]
+print(my_list)  # [1, 2, 3, 4]
+
+
 
 
 #################################################
 
+# range() includes a step parameter that may not be known that much
+for number in range(1, 10, 3):
+    print(number, end=" ")
+# 1 4 7
+
+#################################################
+
+# You can access private properties even outside their intended scope
+class Engineer:
+    def __init__(self, name):
+        self.name = name
+        self.__starting_salary = 62000
+
+dain = Engineer('Dain')
+print(dain._Engineer__starting_salary)  # 62000
 
 
 #################################################
 
+# get memory size of an object
+import sys
+
+print(sys.getsizeof(range(1,100000)))  # 56
+
+range(1,100000)[555]
+
+#################################################
+
+# You can define a method that can be called with as many parameters as you want
+def get_sum(*arguments):
+    result = 0
+    for i in arguments:
+        result += i
+    return result
+
+
+print(get_sum(1, 2, 3))  # 6
+print(get_sum(1, 2, 3, 4, 5))  # 15
+print(get_sum(1, 2, 3, 4, 5, 6, 7))  # 28
+
 
 
 #################################################
 
+# You can call the parent class’s initializer using super() or parent class’s name
+class Parent:
+    def __init__(self, city, address):
+        self.city = city
+        self.address = address
+
+
+class Child(Parent):
+    def __init__(self, city, address, university):
+        super().__init__(city, address)
+        self.university = university
+
+
+child = Child('Zürich', 'Rämistrasse 101', 'ETH Zürich')
+print(child.university)  # ETH Zürich
 
 #################################################
 
+# You can overload the '+' operator
+class Expenses:
+    def __init__(self, rent, groceries):
+        self.rent = rent
+        self.groceries = groceries
 
+    def __add__(self, other):
+        return Expenses(self.rent + other.rent,
+                        self.groceries + other.groceries)
+
+
+april_expenses = Expenses(1000, 200)
+may_expenses = Expenses(1000, 300)
+
+total_expenses = april_expenses + may_expenses
+print(total_expenses.rent)  # 2000
+print(total_expenses.groceries)  # 500
 
 #################################################
 
+# You can also overload the other operators, here: '=='
+class Journey:
+    def __init__(self, location, destination, duration):
+        self.location = location
+        self.destination = destination
+        self.duration = duration
 
+    def __eq__(self, other):
+        return ((self.location == other.location) and
+                (self.destination == other.destination) and
+                (self.duration == other.duration))
+
+
+first = Journey('Location A', 'Destination A', '30min')
+second = Journey('Location B', 'Destination B', '30min')
+
+print(first == second)
+
+# You can also analogously define:
+
+#     __lt__() for <
+#     __eq__() for ==
+#     __sub__() for -
+#     __mul__() for *
+#     __truediv__() for /
+#     __ne__() for !=
+#     __ge__() for >=
+#     __gt__() for >
+# 
 
 #################################################
 
+# You can define a custom printable version for an object of a class
+class Rectangle:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
 
-#################################################
+    def __repr__(self):
+        return repr('Rectangle with area=' + str(self.a * self.b))
 
 
-
-#################################################
-
-
-
-#################################################
-
+print(Rectangle(3, 4))  # 'Rectangle with area=12'
 
 #################################################
 
